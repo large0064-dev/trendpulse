@@ -42,11 +42,12 @@
       background: #1e293b;
       padding: 15px;
       border-radius: 12px;
-      text-align: center;
+      margin-top: 10px;
     }
 
     .title {
       margin-top: 10px;
+      text-align: center;
     }
 
     .section {
@@ -68,6 +69,15 @@
       color: white;
       text-decoration: none;
       border-radius: 6px;
+    }
+
+    .ad-box {
+      background: #111827;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      margin-top: 15px;
+      border: 1px dashed #555;
     }
   </style>
 </head>
@@ -91,8 +101,20 @@
     <div class="card">🔥<div class="title">Viral</div></div>
   </div>
 
+  <!-- 🔥 LIVE NEWS -->
   <div class="section">
-    <h3>🔥 Trending Product</h3>
+    <h3>🔥 Live Trending News</h3>
+    <div id="news"></div>
+  </div>
+
+  <!-- 📢 ADS PLACE -->
+  <div class="ad-box">
+    📢 Advertisement Space (AdSense / Affiliate)
+  </div>
+
+  <!-- 💰 PRODUCT -->
+  <div class="section">
+    <h3>🛒 Trending Product</h3>
     <div class="product">
       <h4>Stylish Shirt</h4>
       <a class="btn" href="https://amazon.in" target="_blank">Buy Now</a>
@@ -100,6 +122,35 @@
   </div>
 
 </div>
+
+<script>
+async function loadNews() {
+  try {
+    const res = await fetch("https://trend-backend-h6ix.onrender.com/news");
+    const data = await res.json();
+
+    let newsContainer = document.getElementById("news");
+
+    data.articles.slice(0, 10).forEach(article => {
+      let div = document.createElement("div");
+      div.className = "card";
+
+      div.innerHTML = `
+        <h3>${article.title}</h3>
+        <p>${article.description || "No description available"}</p>
+        <a class="btn" href="${article.url}" target="_blank">Read More</a>
+      `;
+
+      newsContainer.appendChild(div);
+    });
+
+  } catch (error) {
+    console.log("Error:", error);
+  }
+}
+
+loadNews();
+</script>
 
 </body>
 </html>
